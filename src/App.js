@@ -1,26 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { PureComponent } from 'react';
+import { GlobalStyled } from './style';
+import { Iconfont } from './statics/iconfont/iconfont.js';
+import Header from './common/Header';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends PureComponent {
+  render() {
+    return (
+      <div>
+        <GlobalStyled/>
+        <Iconfont/>
+        <Header/>
+      </div>
+    )
+  }
 }
 
 export default App;
