@@ -74,10 +74,26 @@ export const NavSearch = styled.input.attrs({
     outline: none;
     border-radius: 19px;
     box-sizing: border-box;
-    padding: 0 20px;
+    padding: 0 30px 0 25px;
     background: #eee;
+    color: #666;
     &::placeholder{
         color: #999;
+    }
+    &.focused{
+        width: 280px;
+    }
+    &.slide-enter{
+        transition: all .2s ease-out;
+    }
+    &.slide-enter-active{
+        width: 280px;
+    }
+    &.slide-exit{
+        transition: all .2s ease-out;
+    }
+    &.slide-exit-active{
+        width: 240px;
     }
 `;
 
