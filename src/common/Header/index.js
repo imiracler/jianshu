@@ -26,7 +26,7 @@ class Header extends PureComponent{
                 >
                     <SearchInfoTitle>
                         热门搜索
-                        <SearchInfoSwitch onClick={() => handleChangePage(page, totalPage)}>换一批</SearchInfoSwitch>
+                        <SearchInfoSwitch onClick={() => handleChangePage(page, totalPage, this.spinIcon)}><span ref={(icon) => {this.spinIcon = icon} } className="iconfont spin">&#xe851;</span>换一批</SearchInfoSwitch>
                     </SearchInfoTitle>
                     <SearchInfoList>
                         {pageList}
@@ -39,7 +39,7 @@ class Header extends PureComponent{
     }
 
     render(){
-        const { focused, handleInputFocus, handleInputBlur } = this.props;
+        const { focused, handleInputFocus, handleInputBlur, list } = this.props;
         return (
             <HeaderWrapper>
                 <Logo href='/'/>
@@ -56,10 +56,10 @@ class Header extends PureComponent{
                             timeout={200}
                             classNames="slide"
                         >
-                            <NavSearch className={focused ? "focused" : ""} onFocus={handleInputFocus} onBlur={handleInputBlur}>
+                            <NavSearch className={focused ? "focused" : ""} onFocus={() => handleInputFocus(list)} onBlur={handleInputBlur}>
                             </NavSearch>
                         </CSSTransition>
-                        <span className={focused ? "focused iconfont" : "iconfont"}>&#xe60c;</span>
+                        <span className={focused ? "focused iconfont zoom" : "iconfont zoom"}>&#xe60c;</span>
                         {this.getListArea(focused)}
                     </SearchWrapper>
                 </Nav>
@@ -87,8 +87,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleInputFocus(){
-            dispatch(actionCreator.getHotList());
+        handleInputFocus(list){
+            (list.size === 0) && dispatch(actionCreator.getHotList());
             dispatch(actionCreator.searchFocus());
         },
         handleInputBlur(){
@@ -100,7 +100,15 @@ const mapDispatchToProps = (dispatch) => {
         handleMouseLeave(){
             dispatch(actionCreator.mouseLeave());
         },
-        handleChangePage(page, totalPage){
+        handleChangePage(page, totalPage, spin){
+            let originAngle = spin.style.transform.replace(/[^0-9]/ig, '');
+            if(originAngle){
+                originAngle = parseInt(originAngle, 10);
+            }else{
+                originAngle = 0;
+            }
+            spin.style.transform = 'rotate('+ (originAngle + 360) + 'deg)';
+
             if(page < totalPage)
             {
                 dispatch(actionCreator.pageChange(page + 1));
